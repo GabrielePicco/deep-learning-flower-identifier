@@ -7,10 +7,10 @@ The used data set contains images of flowers from 102 different species divided 
 **In addition, the repository contains a utility for testing the performance of a model on a dataset obtained by downloading the first 10 resulting images from Google, querying it by the name of the flower categories. This allows to evaluate if the model is not affected by overfitting and if it is suitable for a real usecae.**
 
 
-- [TRAIN THE MODEL](#TRAIN THE MODEL)
-- [TEST THE MODEL](#TEST THE MODEL)
-- [PUBLISH THE MODEL RESULTS](#PUBLISH THE MODEL RESULTS)
-- [PUBLISH YOUR MODEL RESULTS](#PUBLISH YOUR MODEL RESULTS)
+- [TRAIN THE MODEL](#TRAIN-THE-MODEL)
+- [TEST THE MODEL](#TEST-THE-MODEL)
+- [PUBLISH THE MODEL RESULTS](#PUBLISH-THE-MODEL-RESULTS)
+- [PUBLISH YOUR MODEL RESULTS](#PUBLISH-YOUR-MODEL-RESULTS)
 
 # TRAIN THE MODEL
 
