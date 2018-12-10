@@ -1,3 +1,5 @@
+import sys
+
 import numpy as np
 import os
 import inspect
@@ -58,11 +60,32 @@ def download_google_test_set(default_path):
     """
     if not os.path.exists(default_path):
         url = 'https://www.dropbox.com/s/3zmf1kq58o909rq/google_test_data.zip?dl=1'
+        print("Downloading the dataset from: {}".format(url))
         tmp_zip_path = "./tmp.zip"
-        urllib.request.urlretrieve(url, tmp_zip_path)
+        urllib.request.urlretrieve(url, tmp_zip_path, download_progress)
         with zipfile.ZipFile(tmp_zip_path, 'r') as zip_ref:
             zip_ref.extractall(default_path)
         os.remove(tmp_zip_path)
+
+
+def download_progress(blocknum, blocksize, totalsize):
+    """
+    Show download progress
+    :param blocknum:
+    :param blocksize:
+    :param totalsize:
+    :return:
+    """
+    readsofar = blocknum * blocksize
+    if totalsize > 0:
+        percent = readsofar * 1e2 / totalsize
+        s = "\r%5.1f%% %*d / %d" % (
+            percent, len(str(totalsize)), readsofar, totalsize)
+        sys.stderr.write(s)
+        if readsofar >= totalsize: # near the end
+            sys.stderr.write("\n")
+    else: # total size is unknown
+        sys.stderr.write("read %d\n" % (readsofar,))
 
 
 def publish_evaluated_model(model, input_image_size, username, model_name=None, optim=None, criteria=None,

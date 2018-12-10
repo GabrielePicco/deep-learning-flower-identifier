@@ -93,6 +93,9 @@ Add this code cell
     !git clone https://github.com/GabrielePicco/deep-learning-flower-identifier
     !pip install requests
     !pip install airtable
+    import sys
+    sys.path.insert(0, 'deep-learning-flower-identifier')
+
     from test_model_pytorch_facebook_challenge import publish_evaluated_model
 
     model = load_your_model('classifier.pth')
@@ -108,6 +111,8 @@ Add this code cell
     $pip install airtable
 
 In your script
+    import sys
+    sys.path.insert(0, 'deep-learning-flower-identifier')
 
     from test_model_pytorch_facebook_challenge import publish_evaluated_model
     publish_evaluated_model(model, input_image_size=224,  username="@Slack.Username", model_name="VGG19", optim="Adam",
