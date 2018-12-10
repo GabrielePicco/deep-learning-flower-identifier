@@ -4,7 +4,7 @@ import torch
 from torch import nn
 from torchvision import models
 
-from test_model_pytorch_facebook_challenge import publish_evaluated_model
+from test_model_pytorch_facebook_challenge import publish_evaluated_model, calc_accuracy
 
 
 def load_model(checkpoint_path):
@@ -36,4 +36,7 @@ def load_model(checkpoint_path):
 
 
 model = load_model('classifier.pth')
-publish_evaluated_model(model, input_image_size=224, username="@Gabriele.Picco")
+
+#calc_accuracy(model, input_image_size=224)
+publish_evaluated_model(model, input_image_size=224,  username="@Gabriele.Picco", model_name="VGG19", optim="Adam",
+                        criteria="NLLLoss", scheduler="StepLR", epoch=10)

@@ -57,7 +57,7 @@ def download_google_test_set(default_path):
     :return:
     """
     if not os.path.exists(default_path):
-        url = 'http://i3.ytimg.com/vi/J---aiyznGQ/mqdefault.jpg'
+        url = 'https://www.dropbox.com/s/3zmf1kq58o909rq/google_test_data.zip?dl=1'
         tmp_zip_path = "./tmp.zip"
         urllib.request.urlretrieve(url, tmp_zip_path)
         with zipfile.ZipFile(tmp_zip_path, 'r') as zip_ref:
@@ -86,6 +86,7 @@ def publish_evaluated_model(model, input_image_size, username, model_name=None, 
     at = airtable.Airtable('appQHMJgKMFqTjd9K', 'key9Wz1SXOE3UwuSd')
     table_name = "Leaderboard"
     mean_acc = calc_accuracy(model, input_image_size, norm_mean=norm_mean, norm_std=norm_std)
+    mean_acc = round(mean_acc, 3)
     records = at.get(table_name)['records']
     prec_id = 0
     prec_acc = 0
