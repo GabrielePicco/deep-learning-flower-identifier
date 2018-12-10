@@ -1,0 +1,3 @@
+requests
+airtable
+google_images_download

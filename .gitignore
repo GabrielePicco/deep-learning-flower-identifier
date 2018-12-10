@@ -1,0 +1,14 @@
+
+\.idea/
+
+*.pth
+
+*.jpg
+
+*.ipynb
+
+*.jpeg
+
+*.png
+
+*.pyc
