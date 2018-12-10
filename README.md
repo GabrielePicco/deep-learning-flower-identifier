@@ -29,6 +29,7 @@ This will allow you to train your model and save a checkpoint.
 
 
     $git clone https://github.com/GabrielePicco/deep-learning-flower-identifier
+    $cd deep-learning-flower-identifier
 
 
 
