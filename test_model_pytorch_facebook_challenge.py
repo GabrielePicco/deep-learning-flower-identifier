@@ -138,6 +138,6 @@ def publish_evaluated_model(model, input_image_size, username, model_name=None, 
                                                                                                              mean_acc))
     elif not alredy_exist:
         at.create(table_name, record)
-        print("\nYour model performance are now on Airtable: ".format("https://airtable.com/shrCs1LDFdBus0tMG"))
+        print("\nYour model performance are now on Airtable: {}".format("https://airtable.com/shrCs1LDFdBus0tMG"))
     else:
         print("\nPrevious model was better: Accuracy on test set was {}, now is {}".format(prec_acc, mean_acc))
