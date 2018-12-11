@@ -55,6 +55,18 @@ To test a saved model, simply load it into memory and recall the function calc_a
     model = load_model('classifier.pth')
     calc_accuracy(model, input_image_size=224)
 
+If you are using a notebook
+
+    !git clone https://github.com/GabrielePicco/deep-learning-flower-identifier
+    !pip install requests
+    !pip install airtable
+    import sys
+    sys.path.insert(0, 'deep-learning-flower-identifier')
+    from test_model_pytorch_facebook_challenge import calc_accuracy
+
+    model = load_your_model('classifier.pth')
+    calc_accuracy(model, input_image_size=224)
+
 The accuracy will be calculated on a dataset, downloaded on runtime, containing images classified by category, downloaded from Google search results.
 
 You can also use the function to calculate the model's performance on a custom directory.
