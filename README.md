@@ -122,7 +122,7 @@ In your script
 
 # THE TEST SET
 
-If you are just interested only in the test set, you can download it here: https://www.dropbox.com/s/3zmf1kq58o909rq/google_test_data.zip?dl=1
+If you are just interested in the test set, you can download it here: https://www.dropbox.com/s/3zmf1kq58o909rq/google_test_data.zip?dl=1
 
 If you are using a notebook you can use it directly:
 
