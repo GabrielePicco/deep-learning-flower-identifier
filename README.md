@@ -52,6 +52,7 @@ To test a saved model, simply load it into memory and recall the function calc_a
 
 
     from test_model_pytorch_facebook_challenge import calc_accuracy
+    
     model = load_model('classifier.pth')
     calc_accuracy(model, input_image_size=224)
 
