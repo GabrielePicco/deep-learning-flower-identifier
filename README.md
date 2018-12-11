@@ -11,6 +11,7 @@ The used data set contains images of flowers from 102 different species divided 
 - [TEST THE MODEL](#TEST-THE-MODEL)
 - [PUBLISH THE MODEL RESULTS](#PUBLISH-THE-MODEL-RESULTS)
 - [PUBLISH YOUR MODEL RESULTS](#PUBLISH-YOUR-MODEL-RESULTS)
+- [THE TESTSET](#THE-TESTSET)
 
 # TRAIN THE MODEL
 
@@ -118,3 +119,14 @@ In your script
     from test_model_pytorch_facebook_challenge import publish_evaluated_model
     publish_evaluated_model(model, input_image_size=224,  username="@Slack.Username", model_name="VGG19", optim="Adam",
                         criteria="NLLLoss", scheduler="StepLR", epoch=10)
+
+# THE TEST SET
+
+If you are just interested in the TESTSET, you can download it here: https://www.dropbox.com/s/3zmf1kq58o909rq/google_test_data.zip?dl=1
+
+If you are using a notebook you can use it directly:
+
+
+
+    !wget -O google_test_data.zip "https://www.dropbox.com/s/3zmf1kq58o909rq/google_test_data.zip?dl=1"
+    !unzip google_test_data.zip
