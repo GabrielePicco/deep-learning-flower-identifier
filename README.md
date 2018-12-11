@@ -60,7 +60,7 @@ The accuracy will be calculated on a dataset, downloaded on runtime, containing 
 You can also use the function to calculate the model's performance on a custom directory.
 
 #### usage:
-    calc_accuracy.py(model, input_image_size, testset_path="./google_test_data", batch_size=32,
+    calc_accuracy(model, input_image_size, testset_path="./google_test_data", batch_size=32,
                   norm_mean=[0.485, 0.456, 0.406], norm_std=[0.229, 0.224, 0.225]))                        
     """
     Calculate the mean accuracy of the model on the test test
