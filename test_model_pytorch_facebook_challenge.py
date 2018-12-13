@@ -1,20 +1,21 @@
-import sys
-
-import numpy as np
 import os
-import inspect
-import torch
+import sys
 import urllib.request
 import zipfile
+
+import numpy as np
+import torch
 from airtable import airtable
 from torchvision import datasets, transforms
 
 
-def calc_accuracy(model, input_image_size, testset_path="./google_test_data", batch_size=32,
+def calc_accuracy(model, input_image_size, use_google_testset=False, testset_path=None, batch_size=32,
                   norm_mean=[0.485, 0.456, 0.406], norm_std=[0.229, 0.224, 0.225]):
     """
     Calculate the mean accuracy of the model on the test test
-    :param testset_path:
+    :param use_google_testset: If true use the testset derived from google image
+    :param testset_path: If None, use a default testset (missing image from the Udacity dataset,
+    downloaded from here: http://www.robots.ox.ac.uk/~vgg/data/flowers/102/102flowers.tgz)
     :param batch_size:
     :param model:
     :param input_image_size:
@@ -22,9 +23,14 @@ def calc_accuracy(model, input_image_size, testset_path="./google_test_data", ba
     :param norm_std:
     :return: the mean accuracy
     """
-    default_path = inspect.signature(calc_accuracy).parameters['testset_path']._default
-    if testset_path == default_path:
-        download_google_test_set(default_path)
+    if use_google_testset:
+        testset_path = "./google_test_data"
+        url = 'https://www.dropbox.com/s/3zmf1kq58o909rq/google_test_data.zip?dl=1'
+        download_test_set(testset_path, url)
+    if testset_path is None:
+        testset_path = "./flower_data_orginal_test"
+        url = 'https://www.dropbox.com/s/da6ye9genbsdzbq/flower_data_original_test.zip?dl=1'
+        download_test_set(testset_path, url)
     device = "cuda" if torch.cuda.is_available() else "cpu"
     model.eval()
     model.to(device=device)
@@ -51,7 +57,7 @@ def calc_accuracy(model, input_image_size, testset_path="./google_test_data", ba
     return mean_acc
 
 
-def download_google_test_set(default_path):
+def download_test_set(default_path, url):
     """
     Download a testset containing approximately 10 images for every flower category.
     The images were download with the download_testset script and hosted on dropbox.
@@ -59,7 +65,6 @@ def download_google_test_set(default_path):
     :return:
     """
     if not os.path.exists(default_path):
-        url = 'https://www.dropbox.com/s/3zmf1kq58o909rq/google_test_data.zip?dl=1'
         print("Downloading the dataset from: {}".format(url))
         tmp_zip_path = "./tmp.zip"
         urllib.request.urlretrieve(url, tmp_zip_path, download_progress)
@@ -90,7 +95,7 @@ def download_progress(blocknum, blocksize, totalsize):
 
 def publish_evaluated_model(model, input_image_size, username, model_name=None, optim=None, criteria=None,
                             scheduler=None, epoch=-1, comment=None, norm_mean=[0.485, 0.456, 0.406],
-                            norm_std=[0.229, 0.224, 0.225]):
+                            norm_std=[0.229, 0.224, 0.225], use_google_testset=False):
     """
     Publish the result on an airtable shared leaderboard
     :param model:
@@ -107,9 +112,13 @@ def publish_evaluated_model(model, input_image_size, username, model_name=None, 
     :return:
     """
     at = airtable.Airtable('appQHMJgKMFqTjd9K', 'key9Wz1SXOE3UwuSd')
-    table_name = "Leaderboard"
-    mean_acc = calc_accuracy(model, input_image_size, norm_mean=norm_mean, norm_std=norm_std)
-    mean_acc = round(mean_acc, 3)
+    if use_google_testset:
+        table_name = "Leaderboard (Google Test Set)"
+    else:
+        table_name = "Leaderboard (Original Test Set)"
+    mean_acc = calc_accuracy(model, input_image_size, norm_mean=norm_mean, norm_std=norm_std,
+                             use_google_testset=use_google_testset)
+    mean_acc = round(mean_acc, 7)
     records = at.get(table_name)['records']
     prec_id = 0
     prec_acc = 0
