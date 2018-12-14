@@ -51,7 +51,7 @@ def calc_accuracy(model, input_image_size, use_google_testset=False, testset_pat
             _, predicted = outputs.max(dim=1)
             equals = predicted == labels.data
             print("Batch accuracy (Size {}): {}".format(batch_size, equals.float().mean()))
-            batch_accuracy.append(equals.float().mean().numpy())
+            batch_accuracy.append(equals.float().mean().cpu().numpy())
         mean_acc = np.mean(batch_accuracy)
         print("Mean accuracy: {}".format(mean_acc))
     return mean_acc
