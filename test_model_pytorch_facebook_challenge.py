@@ -1,4 +1,5 @@
 import os
+import random
 import sys
 import urllib.request
 import zipfile
@@ -36,6 +37,11 @@ def calc_accuracy(model, input_image_size, use_google_testset=False, testset_pat
     model.to(device=device)
     with torch.no_grad():
         batch_accuracy = []
+        torch.manual_seed(33)
+        torch.cuda.manual_seed(33)
+        np.random.seed(33)
+        random.seed(33)
+        torch.backends.cudnn.deterministic = True
         datatransform = transforms.Compose([transforms.RandomRotation(45),
                                             transforms.Resize(input_image_size + 32),
                                             transforms.CenterCrop(input_image_size),
@@ -43,7 +49,7 @@ def calc_accuracy(model, input_image_size, use_google_testset=False, testset_pat
                                             transforms.ToTensor(),
                                             transforms.Normalize(norm_mean, norm_std)])
         image_dataset = datasets.ImageFolder(testset_path, transform=datatransform)
-        dataloader = torch.utils.data.DataLoader(image_dataset, batch_size=batch_size, shuffle=True)
+        dataloader = torch.utils.data.DataLoader(image_dataset, batch_size=batch_size, shuffle=True, worker_init_fn=_init_fn)
         for idx, (inputs, labels) in enumerate(dataloader):
             if device == 'cuda':
                 inputs, labels = inputs.cuda(), labels.cuda()
@@ -55,6 +61,15 @@ def calc_accuracy(model, input_image_size, use_google_testset=False, testset_pat
         mean_acc = np.mean(batch_accuracy)
         print("Mean accuracy: {}".format(mean_acc))
     return mean_acc
+
+
+def _init_fn(worker_id):
+    """
+    It makes determinations applied transforms
+    :param worker_id:
+    :return:
+    """
+    np.random.seed(77 + worker_id)
 
 
 def download_test_set(default_path, url):
